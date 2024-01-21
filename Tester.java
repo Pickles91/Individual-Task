@@ -1,6 +1,6 @@
 package playball;
-import javax.swing.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +8,7 @@ import java.awt.event.ActionListener;
 public class Tester implements ActionListener {
 
     JFrame frame;
-
-
     Timer t;;
-    
     DrawPanel d = new DrawPanel();
     boolean play = true;
     boolean go = false;
@@ -19,13 +16,11 @@ public class Tester implements ActionListener {
     JButton start = new JButton("START");
     JButton stop = new JButton("STOP");
     JButton updn = new JButton("UP & DN");
-    JButton ltrt = new JButton("Lft & Dwn");
+    JButton ltrt = new JButton("LT & RT");
  
     public Tester() {
         frame = new JFrame("Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
         frame.getContentPane().add(BorderLayout.CENTER, d);
 
         c.setPreferredSize(new Dimension(100,100));
@@ -48,37 +43,44 @@ public class Tester implements ActionListener {
         t.start();
     }
     
-    public void doit()
-    {
-
-    		System.out.println("moving it");
-
-	        d.moveIt();
-
+    public void doit() {
+    	System.out.println("moving it");
+    	d.moveIt();
     }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() instanceof Timer)
-		{
-			if (go)
-			{
-				doit();
-			}
-		}
-		else if (e.getSource() instanceof JButton)
-		{
-			JButton clicked = (JButton) e.getSource();
-			if (clicked.getText().equals("START"))
-			{
-				go = true;
-			}
-			else if (clicked.getText().equals("STOP"))
-			{
-				go = false;
-			}
-				
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof Timer) {
+            if (go) {
+                doit();
+            }
+        } else if (e.getSource() instanceof JButton) {
+            JButton clicked = (JButton) e.getSource();
+            if (clicked.getText().equals("START")) {
+                go = true;
+            } else if (clicked.getText().equals("STOP")) {
+                go = false;
+            } else if (clicked.getText().equals("UP & DN")) {
+                if (d.up) {
+                    // If currently moving upward, stop upward movement
+                    d.up = false;
+                    d.down = true; // Start moving downward
+                } else {
+                    // If currently moving downward, stop downward movement
+                    d.up = true; // Start moving upward
+                    d.down = false;
+                }
+            } else if (clicked.getText().equals("LT & RT")) {
+                if (d.left) {
+                    // If currently moving left, stop left movement
+                    d.left = false;
+                    d.right = true; // Start moving right
+                } else {
+                    // If currently moving right, stop right movement
+                    d.left = true; // Start moving left
+                    d.right = false;
+                }
+            }
+        }
+    }
 }
