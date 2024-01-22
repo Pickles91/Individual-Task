@@ -8,8 +8,7 @@ import java.awt.event.ActionListener;
 public class Tester implements ActionListener {
 
     JFrame frame;
-    Timer t;;
-    DrawPanel d = new DrawPanel();
+    Timer t;
     boolean play = true;
     boolean go = false;
     JPanel c = new JPanel();
@@ -17,19 +16,26 @@ public class Tester implements ActionListener {
     JButton stop = new JButton("STOP");
     JButton updn = new JButton("UP & DN");
     JButton ltrt = new JButton("LT & RT");
+    static JLabel scoreLabel;
+    DrawPanel d = new DrawPanel();
+    int score = 0;
+
  
     public Tester() {
-        frame = new JFrame("Test");
+        frame = new JFrame("Ball Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(BorderLayout.CENTER, d);
 
         c.setPreferredSize(new Dimension(100,100));
         frame.getContentPane().add(BorderLayout.NORTH, c);
         
+        scoreLabel = new JLabel("Score: " + score);
+        
         c.add(start);
         c.add(stop);
         c.add(updn);
         c.add(ltrt);
+        c.add(scoreLabel);
         
         frame.setVisible(true);
         frame.setResizable(false);
