@@ -1,16 +1,18 @@
 package playball;
 
-import javax.swing.*;
+mport javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Tester implements ActionListener {
+public class Tester implements ActionListener, KeyListener {
 
     JFrame frame;
-    Timer t;
+    static Timer t;
     boolean play = true;
-    boolean go = false;
+    static boolean go = false;
     JPanel c = new JPanel();
     JButton start = new JButton("START");
     JButton stop = new JButton("STOP");
@@ -47,6 +49,15 @@ public class Tester implements ActionListener {
         ltrt.addActionListener(this);
         t = new Timer(5, this);
         t.start();
+        
+        start.setFocusable(false);
+        stop.setFocusable(false);
+        updn.setFocusable(false);
+        ltrt.setFocusable(false);
+        
+        frame.addKeyListener(this);
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
     }
     
     public void doit() {
@@ -61,32 +72,73 @@ public class Tester implements ActionListener {
                 doit();
             }
         } else if (e.getSource() instanceof JButton) {
+        	
             JButton clicked = (JButton) e.getSource();
+            
             if (clicked.getText().equals("START")) {
                 go = true;
             } else if (clicked.getText().equals("STOP")) {
                 go = false;
+                
+                
+                
             } else if (clicked.getText().equals("UP & DN")) {
                 if (d.up) {
-                    // If currently moving upward, stop upward movement
                     d.up = false;
-                    d.down = true; // Start moving downward
+                    d.down = true; 
                 } else {
-                    // If currently moving downward, stop downward movement
-                    d.up = true; // Start moving upward
+                    d.up = true; 
                     d.down = false;
                 }
+                
             } else if (clicked.getText().equals("LT & RT")) {
                 if (d.left) {
-                    // If currently moving left, stop left movement
                     d.left = false;
-                    d.right = true; // Start moving right
+                    d.right = true;
                 } else {
-                    // If currently moving right, stop right movement
-                    d.left = true; // Start moving left
+                    d.left = true; 
                     d.right = false;
                 }
             }
         }
     }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		 int keyCode = e.getKeyCode();
+
+	        if (keyCode == KeyEvent.VK_UP) {
+	            // Handle up key press
+	        	System.out.println("Clicked");
+	            d.up = true;
+	            d.down = false;
+	            System.out.println("Clicked");
+	        } else if (keyCode == KeyEvent.VK_DOWN) {
+	            // Handle down key press
+	            d.up = false;
+	            d.down = true;
+	        } else if (keyCode == KeyEvent.VK_LEFT) {
+	            // Handle left key press
+	            d.left = true;
+	            d.right = false;
+	        } else if (keyCode == KeyEvent.VK_RIGHT) {
+	            // Handle right key press
+	            d.left = false;
+	            d.right = true;
+	        }
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
