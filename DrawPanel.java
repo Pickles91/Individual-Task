@@ -63,7 +63,27 @@ class DrawPanel extends JPanel {
             // Update the scoreLabel with the current score
             Tester.scoreLabel.setText("Score: " + score);
          }
+        
+        if (score >= 5) {
+            Tester.t.stop(); // Stop the timer
+            JOptionPane.showMessageDialog(null, "Congratulations! Game completed.");
+         // Reset the score to zero
+            score = 0;
+            Tester.scoreLabel.setText("Score: " + score);
+
+            // Reset the oval's position to its initial state
+            oneX = 7;
+            oneY = 7;
+
+            // Restart the game
+            Tester.t.restart();
+            
+            //So the oval doesn't just go with restarting
+            Tester.go = false;
+            
+        }
           
         repaint();
     }
+        
  }
