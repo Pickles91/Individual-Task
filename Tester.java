@@ -10,16 +10,16 @@ import java.awt.event.KeyListener;
 public class Tester implements ActionListener, KeyListener {
 
     JFrame frame;
-    static Timer t;
+    Timer t;
     boolean play = true;
-    static boolean go = false;
+    boolean go = false;
     JPanel c = new JPanel();
     JButton start = new JButton("START");
     JButton stop = new JButton("STOP");
     JButton updn = new JButton("UP & DN");
     JButton ltrt = new JButton("LT & RT");
-    static JLabel scoreLabel;
-    DrawPanel d = new DrawPanel();
+    JLabel scoreLabel;
+    DrawPanel d = new DrawPanel(this);
     int score = 0;
 
  
