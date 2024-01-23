@@ -15,14 +15,16 @@ class DrawPanel extends JPanel {
     boolean left = false;
     boolean right = true;
     int score = 0;
+    private Tester testerInstance;
     
-    public DrawPanel() {
+    public DrawPanel(Tester tester) {
+    	this.testerInstance = tester;
         Random random = new Random();
         obstacleX = random.nextInt(283);
         obstacleY = random.nextInt(259);
     }
 
-    public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) {
         g.setColor(Color.BLUE);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         g.setColor(Color.RED);
@@ -81,47 +83,47 @@ class DrawPanel extends JPanel {
                 oneY < obstacleY + 20 &&
                 oneY + 16 > obstacleY) {
             // Handle collision (you can decrease score or take other actions)
-            Tester.t.stop(); // Stop the timer
+        	testerInstance.t.stop(); // Stop the timer
             JOptionPane.showMessageDialog(null, "Game Over. You Lost");
 
             // Reset the score to zero
             score = 0-1;
-            Tester.scoreLabel.setText("Score: " + score); // Update the score label
+            testerInstance.scoreLabel.setText("Score: " + score); // Update the score label
 
             // Reset the oval's position to its initial state
             oneX = 7;
             oneY = 7;
 
             // Restart the game
-            Tester.t.restart();
+            testerInstance.t.restart();
 
             // So the oval doesn't just go with restarting
-            Tester.go = false;
+            testerInstance.go = false;
         }
         
      // Check if the oval hits the edge, and increment the score
         if (oneX >= 283 || oneX <= 7 || oneY >= 259 || oneY <= 7) {
             score++;
             // Update the scoreLabel with the current score
-            Tester.scoreLabel.setText("Score: " + score);
+            testerInstance.scoreLabel.setText("Score: " + score);
             
          // Check if the score reaches 100
             if (score >= 5) {
-                Tester.t.stop(); // Stop the timer
+            	testerInstance.t.stop(); // Stop the timer
                 JOptionPane.showMessageDialog(null, "Congratulations! Game completed.");
              // Reset the score to zero
                 score = 0;
-                Tester.scoreLabel.setText("Score: " + score);
+                testerInstance.scoreLabel.setText("Score: " + score);
 
                 // Reset the oval's position to its initial state
                 oneX = 7;
                 oneY = 7;
 
                 // Restart the game
-                Tester.t.restart();
+                testerInstance.t.restart();
                 
                 //So the oval doesn't just go with restarting
-                Tester.go = false;
+                testerInstance.go = false;
             }
         }  
           
