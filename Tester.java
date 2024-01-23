@@ -115,22 +115,24 @@ public class Tester implements ActionListener, KeyListener {
 
 	        if (keyCode == KeyEvent.VK_UP) {
 	            // Handle up key press
-	        	System.out.println("Clicked");
 	            d.up = true;
 	            d.down = false;
-	            System.out.println("Clicked");
+	            System.out.println("Up Clicked");
 	        } else if (keyCode == KeyEvent.VK_DOWN) {
 	            // Handle down key press
 	            d.up = false;
 	            d.down = true;
+	            System.out.println("Down Clicked");
 	        } else if (keyCode == KeyEvent.VK_LEFT) {
 	            // Handle left key press
 	            d.left = true;
 	            d.right = false;
+	            System.out.println("Left Clicked");
 	        } else if (keyCode == KeyEvent.VK_RIGHT) {
 	            // Handle right key press
 	            d.left = false;
 	            d.right = true;
+	            System.out.println("Right Clicked");
 	        }
 		
 	}
