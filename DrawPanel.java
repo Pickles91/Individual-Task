@@ -2,16 +2,25 @@ package playball;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 class DrawPanel extends JPanel {
 	
     private int oneX = 7;
     private int oneY = 7;
+    private int obstacleX = 150;
+    private int obstacleY = 100;
     boolean up = false;
     boolean down = true;
     boolean left = false;
     boolean right = true;
     int score = 0;
+    
+    public DrawPanel() {
+        Random random = new Random();
+        obstacleX = random.nextInt(283);
+        obstacleY = random.nextInt(259);
+    }
 
     public void paintComponent(Graphics g) {
         g.setColor(Color.BLUE);
@@ -22,7 +31,8 @@ class DrawPanel extends JPanel {
         g.fillRect(6, 6, this.getWidth()-12, this.getHeight()-12);
         g.setColor(Color.GREEN);
         g.fillOval(oneX, oneY, 16, 16);
-        
+        g.setColor(Color.MAGENTA);
+        g.fillRect(obstacleX, obstacleY, 20, 20); 
 
     }
 
@@ -57,19 +67,26 @@ class DrawPanel extends JPanel {
             oneX++;
         }
         
-     // Check if the oval hits the edge, and increment the score
-        if (oneX >= 283 || oneX <= 7 || oneY >= 259 || oneY <= 7) {
-            score++;
-            // Update the scoreLabel with the current score
-            Tester.scoreLabel.setText("Score: " + score);
-         }
-        
-        if (score >= 5) {
+     // Move the obstacle
+        obstacleX += 2;
+        if (obstacleX > getWidth()) {
+            obstacleX = 0;
+            Random random = new Random();
+            obstacleY = random.nextInt(getHeight());
+        }
+
+     // Check collision with the obstacle
+        if (oneX < obstacleX + 20 &&
+                oneX + 16 > obstacleX &&
+                oneY < obstacleY + 20 &&
+                oneY + 16 > obstacleY) {
+            // Handle collision (you can decrease score or take other actions)
             Tester.t.stop(); // Stop the timer
-            JOptionPane.showMessageDialog(null, "Congratulations! Game completed.");
-         // Reset the score to zero
-            score = 0;
-            Tester.scoreLabel.setText("Score: " + score);
+            JOptionPane.showMessageDialog(null, "Game Over. You Lost");
+
+            // Reset the score to zero
+            score = 0-1;
+            Tester.scoreLabel.setText("Score: " + score); // Update the score label
 
             // Reset the oval's position to its initial state
             oneX = 7;
@@ -77,13 +94,37 @@ class DrawPanel extends JPanel {
 
             // Restart the game
             Tester.t.restart();
-            
-            //So the oval doesn't just go with restarting
+
+            // So the oval doesn't just go with restarting
             Tester.go = false;
-            
         }
+        
+     // Check if the oval hits the edge, and increment the score
+        if (oneX >= 283 || oneX <= 7 || oneY >= 259 || oneY <= 7) {
+            score++;
+            // Update the scoreLabel with the current score
+            Tester.scoreLabel.setText("Score: " + score);
+            
+         // Check if the score reaches 100
+            if (score >= 5) {
+                Tester.t.stop(); // Stop the timer
+                JOptionPane.showMessageDialog(null, "Congratulations! Game completed.");
+             // Reset the score to zero
+                score = 0;
+                Tester.scoreLabel.setText("Score: " + score);
+
+                // Reset the oval's position to its initial state
+                oneX = 7;
+                oneY = 7;
+
+                // Restart the game
+                Tester.t.restart();
+                
+                //So the oval doesn't just go with restarting
+                Tester.go = false;
+            }
+        }  
           
         repaint();
     }
-        
  }
